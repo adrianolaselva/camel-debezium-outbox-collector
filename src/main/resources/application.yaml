@@ -1,0 +1,10 @@
+spring:
+    main:
+        allow-bean-definition-overriding: ${SPRING_MAIN_ALLOW_BEAN_DEF_OVERRIDING:true}
+logging:
+    level:
+        root: INFO
+        org.springframework: ERROR
+camel:
+    springboot:
+        main-run-controller: ${SPRING_MAIN_RUN_CONTROLLER:true}

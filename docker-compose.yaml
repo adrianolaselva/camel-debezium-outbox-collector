@@ -1,0 +1,74 @@
+version: "3.7"
+
+services:
+    zookeeper.outbox.collector.dev:
+        image: wurstmeister/zookeeper
+        hostname: zookeeper.outbox.collector.dev
+        container_name: zookeeper.outbox.collector.dev
+        ports:
+            - "2181:2181"
+        environment:
+            ZOO_MY_ID: 1
+            ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181
+            ZOO_4LW_COMMANDS_WHITELIST: mntr,conf,ruok
+        networks:
+            bubble:
+    kafka.outbox.collector.dev:
+        image: wurstmeister/kafka
+        hostname: kafka.outbox.collector.dev
+        container_name: kafka.outbox.collector.dev
+        depends_on:
+            - zookeeper.outbox.collector.dev
+        ports:
+            - "9092:9092"
+        environment:
+            KAFKA_BROKER_ID: 1
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper.outbox.collector.dev:2181
+            KAFKA_ADVERTISED_HOST_NAME: localhost
+            KAFKA_ADVERTISED_PORT: 9092
+            KAFKA_LISTENERS: INSIDE://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+            KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka.outbox.collector.dev:29092,OUTSIDE://localhost:9092
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+            KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+            CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka.outbox.collector.dev:29092
+            CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT: zookeeper.outbox.collector.dev:2181
+            CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
+            CONFLUENT_METRICS_ENABLE: 'true'
+            CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+        networks:
+            bubble:
+    mysql.outbox.collector.dev:
+        image: mysql:5.7
+        hostname: mysql.outbox.collector.dev
+        platform: linux/amd64
+        container_name: mysql.outbox.collector.dev
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./infra/mysql-cnf/dbz-custom.cnf:/etc/mysql/conf.d/dbz-custom.cnf:ro
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: outbox
+        networks:
+            bubble:
+    mongo.outbox.collector.dev:
+        image: mongo:4.2
+        hostname: mongo.outbox.collector.dev
+        container_name: mongo.outbox.collector.dev
+        ports:
+            - "27017:27017"
+        environment:
+            MONGO_INITDB_DATABASE: outbox
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: root
+        volumes:
+            - ./infra/mongo-script/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+        command: mongod --replSet rs0 --auth
+        healthcheck:
+            test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u user -p password --quiet) -eq 1
+            interval: 10s
+            start_period: 30s
+        networks:
+            bubble:
+networks:
+    bubble:
