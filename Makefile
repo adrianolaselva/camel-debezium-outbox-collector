@@ -2,7 +2,8 @@ include .env-default
 export $(shell sed 's/=.*//' .env-default)
 
 infra-up:
-	(echo "Collector infrastructure UP"; docker-compose -f docker-compose.yaml up --build -d)
+	(echo "Collector infrastructure UP"; docker-compose -f docker-compose.yaml up --build -d; echo "Waiting start all services for apply settings..."; sleep 50;)
+	@make setup
 
 infra-down:
 	(echo "Collector infrastructure DOWN"; docker-compose -f docker-compose.yaml down -v)

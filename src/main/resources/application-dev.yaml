@@ -1,0 +1,37 @@
+collector-outbox:
+    connectors:
+        collector-outbox-mysql:
+            properties:
+                databaseHostname: 127.0.0.1
+                databasePort: 3306
+                databaseUser: root
+                databasePassword: root
+                databaseServerId: 1
+                databaseServerName: collector_outbox
+                databaseIncludeList: outbox
+                databaseHistory: io.debezium.relational.history.KafkaDatabaseHistory
+                databaseHistoryKafkaBootstrapServers: 127.0.0.1:9092
+                databaseHistoryKafkaTopic: debezium-outbox-db-history
+                databaseHistorySkipUnparseableDdl: true
+                databaseHistoryStoreOnlyCapturedTablesDdl: true
+                tableIncludeList: outbox.outbox
+                binaryHandlingMode: base64
+                includeSchemaChanges: false
+                snapshotMode: when_needed
+                snapshotLockingMode: none
+                offsetStorage: org.apache.kafka.connect.storage.KafkaOffsetBackingStore
+                offsetStorageTopic: my_connect_offsets
+                bridgeErrorHandler: true
+            config[additionalProperties.client.id]: debezium
+            config[additionalProperties.group.id]: debezium
+            config[additionalProperties.bootstrap.servers]: 127.0.0.1:9092
+            config[additionalProperties.database.history.kafka.topic]: my_connect_configs
+            config[additionalProperties.config.storage.topic]: my_connect_configs
+            config[additionalProperties.offset.storage.topic]: my_connect_offsets
+            config[additionalProperties.status.storage.topic]: my_connect_statuses
+            config[additionalProperties.config.storage.replication.factor]: -1
+            config[additionalProperties.offset.storage.replication.factor]: -1
+            config[additionalProperties.status.storage.replication.factor]: -1
+            config[additionalProperties.connect.key.converter.schemas.enable]: false
+            config[additionalProperties.connect.value.converter.schemas.enable]: false
+            config[additionalProperties.connect.scheduled.rebalance.max.delay.ms]: false
