@@ -15,9 +15,15 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBase {
     }
 
     @Override
+    protected String getConnectorType() {
+        return "debezium-mysql";
+    }
+
+    @Override
     protected String getConnectorName() {
         return "collector-outbox-mysql";
     }
+
 
     @Override
     public void configure() throws Exception {

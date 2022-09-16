@@ -22,8 +22,10 @@ public abstract class DebeziumRouterBase extends RouteBuilder {
             .get(getConnectorName())
             .getConfig().forEach((s, o) -> parameters.append(format("%s%s=%s", parameters.isEmpty() ? "" : "&", s, o)));
 
-        return format("debezium-mysql://connector?%s", parameters);
+        return format("%s://connector?%s", getConnectorType(), parameters);
     }
+
+    protected abstract String getConnectorType();
 
     protected abstract String getConnectorName();
 
