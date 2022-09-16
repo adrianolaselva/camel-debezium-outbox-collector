@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+    opensearch-node-1.outbox.collector.dev:
+        image: opensearchproject/opensearch:latest
+        container_name: opensearch-node-1.outbox.collector.dev
+        environment:
+            - cluster.name=opensearch-cluster
+            - node.name=opensearch-node-1.outbox.collector.dev
+            - action.auto_create_index:true
+            - compatibility.override_main_response_version:true
+            - discovery.seed_hosts=opensearch-node-1.outbox.collector.dev
+            - cluster.initial_master_nodes=opensearch-node-1.outbox.collector.dev
+            - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
+            - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m" # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
+            - "DISABLE_SECURITY_PLUGIN=true" # disables security plugin entirely in OpenSearch by setting plugins.security.disabled: true in opensearch.yml
+        volumes:
+            - opensearch-data-1:/usr/share/opensearch/data
+        ports:
+            - "9200:9200"
+        networks:
+            - bubble
+    opensearch-dashboards.outbox.collector.dev:
+        image: opensearchproject/opensearch:latest
+        container_name: opensearch-dashboards.outbox.collector.dev
+        ports:
+            - "0.0.0.0:5601:5601"
+        expose:
+            - "5601"
+        environment:
+            - 'OPENSEARCH_HOSTS=["https://opensearch-node-1.outbox.collector.dev:9200"]'
+        networks:
+            - bubble
+volumes:
+    opensearch-data-1:
+networks:
+    bubble:
+        external: true

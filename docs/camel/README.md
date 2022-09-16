@@ -1,6 +1,6 @@
 # Debezium MySql Connector
 
-Estrutura de eventos para tratamento a partir do camel.
+Camel event structure for handling data collect.
 
 ### Example Struct Header Debezium Mysql Camel
 

@@ -72,3 +72,4 @@ services:
             bubble:
 networks:
     bubble:
+        external: true

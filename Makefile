@@ -8,6 +8,12 @@ infra-up:
 infra-down:
 	(echo "Collector infrastructure DOWN"; docker-compose -f docker-compose.yaml down -v)
 
+opensearch-infra-up:
+	(echo "OpenSearch infrastructure UP"; docker-compose -f docker-compose-opensearch.yaml up --build -d;)
+
+opensearch-infra-down:
+	(echo "OpenSearch infrastructure DOWN"; docker-compose -f docker-compose-opensearch.yaml down -v)
+
 test:
 	@make infra-up
 	mvn clean test
