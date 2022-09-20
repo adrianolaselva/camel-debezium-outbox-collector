@@ -1,4 +1,10 @@
 collector-outbox:
+    elasticsearch:
+        host: 127.0.0.1
+        scheme: http
+        port: 9200
+        user: admin
+        password: admin
     connectors:
         collector-outbox-mysql:
             properties:
@@ -35,3 +41,12 @@ collector-outbox:
             config[additionalProperties.connect.key.converter.schemas.enable]: false
             config[additionalProperties.connect.value.converter.schemas.enable]: false
             config[additionalProperties.connect.scheduled.rebalance.max.delay.ms]: false
+
+camel:
+    component:
+        elasticsearch-rest:
+            host: 127.0.0.1
+            scheme: https
+            port: 9200
+            user: admin
+            password: admin
