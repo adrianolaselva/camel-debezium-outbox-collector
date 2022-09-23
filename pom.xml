@@ -18,6 +18,8 @@
 		<org.apache.camel.version>3.18.1</org.apache.camel.version>
 		<org.elasticsearch.client.version>6.7.2</org.elasticsearch.client.version>
 		<mysql.version>8.0.30</mysql.version>
+		<junit-suite-engine.version>1.8.2</junit-suite-engine.version>
+		<junit-jupiter.version>5.8.2</junit-jupiter.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -51,16 +53,32 @@
 			<version>${org.elasticsearch.client.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>transport</artifactId>
+			<version>${org.elasticsearch.client.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite-engine</artifactId>
+			<version>${junit-suite-engine.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit-jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

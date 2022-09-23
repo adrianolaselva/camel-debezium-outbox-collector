@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+    collector.outbox.elasticsearch.dev:
+        container_name: collector.outbox.elasticsearch.dev
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+        restart: always
+        environment:
+            - discovery.type=single-node
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        volumes:
+            - data-collector-outbox-elasticsearch:/usr/share/elasticsearch/data
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        networks:
+            - bubble
+    collector.outbox.kibana:
+        container_name: collector.outbox.kibana
+        image: docker.elastic.co/kibana/kibana:7.4.2
+        restart: always
+        environment:
+            - SERVER_NAME=collector-outbox
+            - ELASTICSEARCH_URL=http://collector.outbox.elasticsearch.dev:9200
+            - ELASTICSEARCH_HOSTS=http://collector.outbox.elasticsearch.dev:9200
+        volumes:
+            - data-collector-outbox-kibana:/var/log
+        ports:
+            - "5601:5601"
+        depends_on:
+            - collector.outbox.elasticsearch.dev
+        networks:
+            - bubble
+
+volumes:
+    data-collector-outbox-elasticsearch:
+    data-collector-outbox-kibana:
+
+networks:
+    bubble:
+        name: bubble
+        driver: bridge
+        ipam:
+            config:
+                -   subnet: 10.0.0.0/16

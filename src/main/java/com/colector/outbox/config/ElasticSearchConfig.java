@@ -1,5 +1,7 @@
 package com.colector.outbox.config;
 
+import org.apache.camel.CamelContext;
+import org.apache.camel.component.elasticsearch.ElasticsearchComponent;
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
@@ -35,10 +37,22 @@ public class ElasticSearchConfig {
 
     @Bean
     public RestHighLevelClient elasticsearchClient() {
-        return new RestHighLevelClient(restClient());
+        return new RestHighLevelClient(restClientBuilder());
     }
 
-    public RestClientBuilder restClient() {
+    @Bean
+    public RestClient restClient() {
+        return restClientBuilder().build();
+    }
+
+    @Bean
+    public ElasticsearchComponent elasticsearchComponent(final RestHighLevelClient elasticsearchClient) {
+        final var elasticsearchComponent = new ElasticsearchComponent();
+        elasticsearchComponent.setClient(elasticsearchClient.getLowLevelClient());
+        return elasticsearchComponent;
+    }
+
+    public RestClientBuilder restClientBuilder() {
         Header[] headers = {
             new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json"),
             new BasicHeader("Role", "Read")

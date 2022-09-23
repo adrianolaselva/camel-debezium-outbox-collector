@@ -46,7 +46,7 @@ camel:
     component:
         elasticsearch-rest:
             host: 127.0.0.1
-            scheme: https
+            scheme: http
             port: 9200
             user: admin
             password: admin

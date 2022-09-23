@@ -1,6 +1,7 @@
 package com.colector.outbox.camel.builder;
 
 import com.colector.outbox.config.CollectorOutBoxProperties;
+import org.apache.camel.Component;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.RouteDefinition;
 import org.springframework.beans.factory.annotation.Autowired;

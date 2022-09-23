@@ -8,11 +8,11 @@ infra-up:
 infra-down:
 	(echo "Collector infrastructure DOWN"; docker-compose -f docker-compose.yaml down -v)
 
-opensearch-infra-up:
-	(echo "OpenSearch infrastructure UP"; docker-compose -f docker-compose-opensearch.yaml up --build -d;)
+elastic-infra-up:
+	(echo "ElasticSearch infrastructure UP"; docker-compose -f docker-compose-elastic.yaml up --build -d;)
 
-opensearch-infra-down:
-	(echo "OpenSearch infrastructure DOWN"; docker-compose -f docker-compose-opensearch.yaml down -v)
+elastic-infra-down:
+	(echo "Elasticsearch infrastructure DOWN"; docker-compose -f docker-compose-elastic.yaml down -v)
 
 test:
 	@make infra-up
@@ -33,3 +33,6 @@ setup-mysql-outbox-table:
 
 send-random-event-mysql:
 	(docker-compose -f docker-compose.yaml exec -T mysql.outbox.collector.dev sh -c "mysql -uroot -proot -Doutbox" < ./infra/sandbox/random-insert.sql)
+
+mysql:
+	(docker exec -it mysql.outbox.collector.dev mysql -uroot -proot -Doutbox)
