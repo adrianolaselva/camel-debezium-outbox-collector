@@ -4,9 +4,11 @@ export $(shell sed 's/=.*//' .env-default)
 infra-up:
 	(echo "Collector infrastructure UP"; docker-compose -f docker-compose.yaml up --build -d; echo "Waiting start all services for apply settings..."; sleep 50;)
 	@make setup
+	@make elastic-infra-up
 
 infra-down:
 	(echo "Collector infrastructure DOWN"; docker-compose -f docker-compose.yaml down -v)
+	@make elastic-infra-down
 
 elastic-infra-up:
 	(echo "ElasticSearch infrastructure UP"; docker-compose -f docker-compose-elastic.yaml up --build -d;)
