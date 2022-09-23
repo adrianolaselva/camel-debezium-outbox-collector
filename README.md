@@ -53,7 +53,7 @@ make mysql
 ```
 
 <p align="center" width="100%">
-    <img width="80%" src="docs/images/mysql-terminal.png"> 
+    <img width="100%" src="docs/images/mysql-terminal.png"> 
 </p>
 
 Exemplo de instrução de insert
@@ -62,11 +62,11 @@ Exemplo de instrução de insert
 insert into outbox (id, message, created_at) values (UUID(), '{"name":"example","uuid":"ee8699ef-bbbc-4e20-91ff-4579690dae55","created_at":"2022-08-09T20:30:48.908+00:00","properties":{}}', now());
 ```
 
-| Coluna                   | Descrição                                  | Exemplo                                                                           |
-|--------------------------|--------------------------------------------|-----------------------------------------------------------------------------------|
-| id                       | Identificador formato UUID                 | ee8699ef-bbbc-4e20-91ff-4579690dae55                                              |
-| message                  | Mensagem json que será indexada no elastic | `{"name":"example","created_at":"2022-08-09T20:30:48.908+00:00","properties":{}}` |
-| created_at               | Data de criação do registro                | 2022-08-09T20:30:48.908+00:00                                                     |
+| Coluna                   | Descrição                         | Exemplo                               |
+|--------------------------|-----------------------------------|---------------------------------------|
+| id                       | Identificador formato UUID        | ee8699ef-bbbc-4e20-91ff-4579690dae55  |
+| message                  | Mensagem json que será indexada   | `{"name":"example","properties":{}}`  |
+| created_at               | Data de criação do registro       | 2022-08-09T20:30:48.908+00:00         |
 
 
 Consultar dados no ElasticSearch
