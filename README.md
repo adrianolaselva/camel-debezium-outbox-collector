@@ -58,6 +58,170 @@ insert into outbox (id, message, created_at) values (UUID(), '{"name":"example",
 | created_at               | Data de criação do registro                |
 
 
+Consultar dados no ElasticSearch
+
+```html
+GET /events-*/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
+
+```json
+{
+  "took" : 1170,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 23,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "bc5b2af7-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:16:30+0000",
+          "properties" : { },
+          "id" : "bc5b2af7-3ae5-11ed-9123-02420a000005"
+        }
+      },
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "bcb900eb-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:16:30+0000",
+          "properties" : { },
+          "id" : "bcb900eb-3ae5-11ed-9123-02420a000005"
+        }
+      },
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "bd130c63-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:16:31+0000",
+          "properties" : { },
+          "id" : "bd130c63-3ae5-11ed-9123-02420a000005"
+        }
+      },
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "bd6af728-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:16:31+0000",
+          "properties" : { },
+          "id" : "bd6af728-3ae5-11ed-9123-02420a000005"
+        }
+      },
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "be097a4d-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:16:32+0000",
+          "properties" : { },
+          "id" : "be097a4d-3ae5-11ed-9123-02420a000005"
+        }
+      },
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "be88729a-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:16:33+0000",
+          "properties" : { },
+          "id" : "be88729a-3ae5-11ed-9123-02420a000005"
+        }
+      },
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "d5f5bff8-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:17:12+0000",
+          "properties" : { },
+          "id" : "d5f5bff8-3ae5-11ed-9123-02420a000005"
+        }
+      },
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "d6552e8d-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:17:13+0000",
+          "properties" : { },
+          "id" : "d6552e8d-3ae5-11ed-9123-02420a000005"
+        }
+      },
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "d6ab7ab7-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:17:14+0000",
+          "properties" : { },
+          "id" : "d6ab7ab7-3ae5-11ed-9123-02420a000005"
+        }
+      },
+      {
+        "_index" : "events-2022-09",
+        "_type" : "_doc",
+        "_id" : "d6fed3b9-3ae5-11ed-9123-02420a000005",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "example",
+          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
+          "created_at" : "2022-09-23T02:17:14+0000",
+          "properties" : { },
+          "id" : "d6fed3b9-3ae5-11ed-9123-02420a000005"
+        }
+      }
+    ]
+  }
+}
+
+```
+
 ## Referências
 
 - [Apache Camel](https://camel.apache.org/)
