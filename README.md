@@ -7,7 +7,10 @@ Esta POC tem como objetivo ser um material de apoio para apresentar uma abordage
 A implementação conta também com um aggregator para construir os lotes par apersistir os dados de forma mais performática e também os quebrando em índices no Elasticsearch de acordo com a data de criação (ex: `events-2022-01`).
 
 
-![project](docs/images/debezium-connector-camel.drawio.png)
+<p align="center" width="100%">
+    <img width="100%" src="docs/images/debezium-connector-camel.drawio.png"> 
+</p>
+
 
 ## Bibliotecas.
 
@@ -42,7 +45,9 @@ Comando para acessar instência MySql para gerar inserir dados e por sua vez ger
 make mysql
 ```
 
-![project](docs/images/mysql-terminal.png)
+<p align="center" width="100%">
+    <img width="50%" src="docs/images/mysql-terminal.png"> 
+</p>
 
 Exemplo de instrução de insert
 
