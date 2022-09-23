@@ -11,6 +11,13 @@ A implementação conta também com um aggregator para construir os lotes par ap
     <img width="100%" src="docs/images/debezium-connector-camel.drawio.png"> 
 </p>
 
+## Casos de uso.
+
+- Evitar uso de índices complexos utilizando bancos de dados relacionais e mantendo réplica de leituraa possíbilidade de utilização de uma solução híbrida (ex: MySql usando para consulta ElasticSearch), ou até mesmo estruturar os dados para povoar tabelas utilizando a própria solução de banco de dados (ex: construção de cubos muito comum em eng. de dados).
+- Utilizar como estratégia de estrangulamento de aplicações, como por exemplo construir uma nova solução e utilizar um outbox com garantias ACID para manter legado atualizado até que consiga ser desligado definitivamente.
+- Contrução de datalakes em `near-real-time` enviando informações coletadas em lotes de arquivos para soluções de storage tal como S3, FTP, ou até mesmo um servidor local.
+- Possibilidade de enviar eventos para serviços de mensageria tal como Kafka, SQS, SNS, Azure service bus entre outros para assim alimentar 1..n consumidores com a possibilidade de utilziar multicast.
+- Flexibilidade de customizar os eventos coletados atravéz do componente Debezium do Apache Camel e utilizar com frameworks tal como Spring boot e Quarkus.
 
 ## Bibliotecas.
 
@@ -55,7 +62,6 @@ Exemplo de instrução de insert
 insert into outbox (id, message, created_at) values (UUID(), '{"name":"example","uuid":"ee8699ef-bbbc-4e20-91ff-4579690dae55","created_at":"2022-08-09T20:30:48.908+00:00","properties":{}}', now());
 ```
 
-
 | Coluna                   | Descrição                                  | Exemplo                                                                           |
 |--------------------------|--------------------------------------------|-----------------------------------------------------------------------------------|
 | id                       | Identificador formato UUID                 | ee8699ef-bbbc-4e20-91ff-4579690dae55                                              |
@@ -65,14 +71,10 @@ insert into outbox (id, message, created_at) values (UUID(), '{"name":"example",
 
 Consultar dados no ElasticSearch
 
-```html
-GET /events-*/_search
-{
-  "query": {
-    "match_all": {}
-  }
-}
+```shell
+curl -XGET 'http://localhost:9200/events-*/_search' | json_pp -json_opt pretty,canonical
 ```
+> Requisição de listagem de documentos.
 
 ```json
 {
@@ -116,116 +118,13 @@ GET /events-*/_search
           "properties" : { },
           "id" : "bcb900eb-3ae5-11ed-9123-02420a000005"
         }
-      },
-      {
-        "_index" : "events-2022-09",
-        "_type" : "_doc",
-        "_id" : "bd130c63-3ae5-11ed-9123-02420a000005",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "example",
-          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
-          "created_at" : "2022-09-23T02:16:31+0000",
-          "properties" : { },
-          "id" : "bd130c63-3ae5-11ed-9123-02420a000005"
-        }
-      },
-      {
-        "_index" : "events-2022-09",
-        "_type" : "_doc",
-        "_id" : "bd6af728-3ae5-11ed-9123-02420a000005",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "example",
-          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
-          "created_at" : "2022-09-23T02:16:31+0000",
-          "properties" : { },
-          "id" : "bd6af728-3ae5-11ed-9123-02420a000005"
-        }
-      },
-      {
-        "_index" : "events-2022-09",
-        "_type" : "_doc",
-        "_id" : "be097a4d-3ae5-11ed-9123-02420a000005",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "example",
-          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
-          "created_at" : "2022-09-23T02:16:32+0000",
-          "properties" : { },
-          "id" : "be097a4d-3ae5-11ed-9123-02420a000005"
-        }
-      },
-      {
-        "_index" : "events-2022-09",
-        "_type" : "_doc",
-        "_id" : "be88729a-3ae5-11ed-9123-02420a000005",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "example",
-          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
-          "created_at" : "2022-09-23T02:16:33+0000",
-          "properties" : { },
-          "id" : "be88729a-3ae5-11ed-9123-02420a000005"
-        }
-      },
-      {
-        "_index" : "events-2022-09",
-        "_type" : "_doc",
-        "_id" : "d5f5bff8-3ae5-11ed-9123-02420a000005",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "example",
-          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
-          "created_at" : "2022-09-23T02:17:12+0000",
-          "properties" : { },
-          "id" : "d5f5bff8-3ae5-11ed-9123-02420a000005"
-        }
-      },
-      {
-        "_index" : "events-2022-09",
-        "_type" : "_doc",
-        "_id" : "d6552e8d-3ae5-11ed-9123-02420a000005",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "example",
-          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
-          "created_at" : "2022-09-23T02:17:13+0000",
-          "properties" : { },
-          "id" : "d6552e8d-3ae5-11ed-9123-02420a000005"
-        }
-      },
-      {
-        "_index" : "events-2022-09",
-        "_type" : "_doc",
-        "_id" : "d6ab7ab7-3ae5-11ed-9123-02420a000005",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "example",
-          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
-          "created_at" : "2022-09-23T02:17:14+0000",
-          "properties" : { },
-          "id" : "d6ab7ab7-3ae5-11ed-9123-02420a000005"
-        }
-      },
-      {
-        "_index" : "events-2022-09",
-        "_type" : "_doc",
-        "_id" : "d6fed3b9-3ae5-11ed-9123-02420a000005",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "example",
-          "uuid" : "ee8699ef-bbbc-4e20-91ff-4579690dae55",
-          "created_at" : "2022-09-23T02:17:14+0000",
-          "properties" : { },
-          "id" : "d6fed3b9-3ae5-11ed-9123-02420a000005"
-        }
       }
     ]
   }
 }
-
 ```
+> Resposta da requisição ao Elasticsearch.
+
 
 ## Referências
 
