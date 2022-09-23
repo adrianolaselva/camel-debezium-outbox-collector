@@ -46,7 +46,7 @@ make mysql
 ```
 
 <p align="center" width="100%">
-    <img width="50%" src="docs/images/mysql-terminal.png"> 
+    <img width="80%" src="docs/images/mysql-terminal.png"> 
 </p>
 
 Exemplo de instrução de insert
