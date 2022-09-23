@@ -23,7 +23,7 @@ import static java.lang.String.format;
 @Component
 public class BulkIndexRequestOutBoxAggregate implements AggregationStrategy {
 
-    private static final String INDEX_PATTERN_FORMAT = "yyyy-MM-dd";
+    private static final String INDEX_PATTERN_FORMAT = "yyyy-MM";
     private static final String DATETIME_PATTERN_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
     private static final DateTimeFormatter indexPatternFormatter = DateTimeFormatter
         .ofPattern(INDEX_PATTERN_FORMAT)
@@ -39,15 +39,18 @@ public class BulkIndexRequestOutBoxAggregate implements AggregationStrategy {
         final var bodyStruct = newExchange.getIn().getBody(Struct.class);
         final var createdAt = timestampToInstant(bodyStruct.getInt64("created_at"));
         final var bulkRequest = oldExchange != null ? oldExchange.getIn().getBody(BulkRequest.class) : new BulkRequest();
-        final var indexRequest = new IndexRequest(buildIndexNameByStruct(createdAt))
-            .id(bodyStruct.get("id").toString())
-            .type("_doc")
-            .source(buildJsonSourceByStruct(bodyStruct, createdAt), XContentType.JSON);
 
-        bulkRequest.add(indexRequest);
+        bulkRequest.add(buildIndexRequest(bodyStruct, createdAt));
         newExchange.getIn().setBody(bulkRequest);
 
         return newExchange;
+    }
+
+    private IndexRequest buildIndexRequest(final Struct bodyStruct, final Instant createdAt) throws IOException {
+        return new IndexRequest(buildIndexNameByStruct(createdAt))
+            .id(bodyStruct.get("id").toString())
+            .type("_doc")
+            .source(buildJsonSourceByStruct(bodyStruct, createdAt), XContentType.JSON);
     }
 
     private String buildIndexNameByStruct(final Instant createdAt) {

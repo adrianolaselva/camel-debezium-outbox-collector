@@ -14,7 +14,7 @@ logging:
         org.springframework: ERROR
         org.apache.http.wire: ERROR
         org.elasticsearch.client.RestClient: ERROR
-        org.apache.camel.component.elasticsearch: ERROR
+        org.apache.camel.component.elasticsearch: INFO
 camel:
     springboot:
         main-run-controller: ${SPRING_MAIN_RUN_CONTROLLER:true}
