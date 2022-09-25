@@ -13,6 +13,8 @@ import java.util.HashMap;
 @ConfigurationProperties(prefix = "collector-outbox")
 public class CollectorOutBoxProperties {
 
+    private String indexPrefix;
+
     private HashMap<String, Settings> connectors;
 
     @Getter
@@ -22,6 +24,15 @@ public class CollectorOutBoxProperties {
         private HashMap<String, Object> properties;
 
         private HashMap<String, Object> config;
+
+        private Target target;
+    }
+
+    @Getter
+    @Setter
+    public static class Target {
+
+        private String indexPrefix;
     }
 }
 

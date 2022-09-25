@@ -1,4 +1,5 @@
 collector-outbox:
+    indexPrefix: transactions
     connectors:
         collector-outbox-mysql:
             properties:
