@@ -73,7 +73,7 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
             .threads(1, 10)
             .aggregate(constant(true), bulkIndexRequestOutBoxAggregate)
             .completionInterval(2_000)
-            .completionSize(200)
+            .completionSize(100)
             .to("elasticsearch-rest://docker-cluster?operation=Bulk");
 
         from("direct:elasticsearch-bulk-update")
@@ -81,7 +81,7 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
             .threads(1, 10)
             .aggregate(constant(true), bulkIndexRequestOutBoxAggregate)
             .completionInterval(5_000)
-            .completionSize(200)
+            .completionSize(100)
             .to("elasticsearch-rest://docker-cluster?operation=Bulk");
 
         from("direct:elasticsearch-bulk-delete")
