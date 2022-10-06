@@ -1,20 +1,15 @@
 package com.colector.outbox.camel.aggregate;
 
-import com.colector.outbox.config.CollectorOutBoxProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.colector.outbox.properties.CollectorOutBoxProperties;
 import lombok.SneakyThrows;
 import org.apache.camel.AggregationStrategy;
 import org.apache.camel.Exchange;
 import org.apache.kafka.connect.data.Struct;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneId;

@@ -1,6 +1,5 @@
 package com.colector.outbox.config;
 
-import org.apache.camel.CamelContext;
 import org.apache.camel.component.elasticsearch.ElasticsearchComponent;
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;

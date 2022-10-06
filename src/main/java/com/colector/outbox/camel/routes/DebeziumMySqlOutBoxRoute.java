@@ -20,21 +20,6 @@ import static org.apache.camel.LoggingLevel.WARN;
 @Component
 public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
 
-    @Override
-    protected String getConnectorType() {
-        return "debezium-mysql";
-    }
-
-    @Override
-    protected String getConnectorName() {
-        return "collector-outbox-mysql";
-    }
-
-    @Override
-    protected String getRouteId() {
-        return "debezium-mysql-route";
-    }
-
     @Autowired
     private BulkIndexRequestOutBoxAggregate bulkIndexRequestOutBoxAggregate;
 
@@ -57,7 +42,7 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
 
         getContext().addComponent("elasticsearch-rest", elasticsearchComponent);
 
-        fromDebezium()
+        fromDebezium("collector-outbox-mysql")
             .choice()
             .when(simple(format("${header.CamelDebeziumOperation} == '%s'", Envelope.Operation.DELETE.code())))
                 .to("direct:elasticsearch-bulk-delete")
@@ -68,6 +53,14 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
             .otherwise()
                 .log(WARN, "ignore operation: ${header.CamelDebeziumOperation}");
 
+        buildElasticSearchBulkInsertRoute();
+        buildElasticSearchBulkUpdateRoute();
+        buildElasticSearchBulkDeleteRoute();
+        buildElasticSearchBulkTruncateRoute();
+        buildElasticSearchBulkFailedRoute();
+    }
+
+    private void buildElasticSearchBulkInsertRoute() {
         from("direct:elasticsearch-bulk-insert")
             .routeId("direct:elasticsearch-bulk-insert")
             .threads(1, 10)
@@ -75,7 +68,9 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
             .completionInterval(2_000)
             .completionSize(100)
             .to("elasticsearch-rest://docker-cluster?operation=Bulk");
+    }
 
+    private void buildElasticSearchBulkUpdateRoute() {
         from("direct:elasticsearch-bulk-update")
             .routeId("direct:elasticsearch-bulk-update")
             .threads(1, 10)
@@ -83,7 +78,9 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
             .completionInterval(5_000)
             .completionSize(100)
             .to("elasticsearch-rest://docker-cluster?operation=Bulk");
+    }
 
+    private void buildElasticSearchBulkDeleteRoute() {
         from("direct:elasticsearch-bulk-delete")
             .routeId("direct:elasticsearch-bulk-delete")
             .log(INFO, "remove row id: ${header.CamelDebeziumKey}")
@@ -92,11 +89,15 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
             .completionInterval(2_000)
             .completionSize(20)
             .to("elasticsearch-rest://docker-cluster?operation=Bulk");
+    }
 
+    private void buildElasticSearchBulkTruncateRoute() {
         from("direct:elasticsearch-truncate")
             .routeId("direct:elasticsearch-truncate")
             .log(INFO, "truncate table: ${header.CamelDebeziumKey}");
+    }
 
+    private void buildElasticSearchBulkFailedRoute() {
         from("direct:elasticsearch-failed")
             .routeId("direct:exception")
             .process(elasticsearchFailedProcessor)

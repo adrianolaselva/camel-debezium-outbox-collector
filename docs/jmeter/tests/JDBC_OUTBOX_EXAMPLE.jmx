@@ -16,9 +16,9 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <stringProp name="LoopController.loops">100</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
@@ -37,8 +37,8 @@
           <stringProp name="initQuery"></stringProp>
           <boolProp name="keepAlive">true</boolProp>
           <stringProp name="password">root</stringProp>
-          <stringProp name="poolMax">10</stringProp>
-          <boolProp name="preinit">false</boolProp>
+          <stringProp name="poolMax">40</stringProp>
+          <boolProp name="preinit">true</boolProp>
           <stringProp name="timeout">10000</stringProp>
           <stringProp name="transactionIsolation">DEFAULT</stringProp>
           <stringProp name="trimInterval">60000</stringProp>
@@ -90,15 +90,9 @@
           <hashTree>
             <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="InsertRandomDataOutBoxJDBCRequest" enabled="true">
               <stringProp name="dataSource">myDatabase</stringProp>
-              <stringProp name="query">insert into outbox (id, message, created_at) 
-values 
-(?, CONCAT(
-  &apos;{&quot;name&quot;:&quot;Weekly User Test&quot;, &quot;email&quot;: &quot;weekly_user@test.com&quot;,&quot;uuid&quot;:&quot;&apos;, ?, 
-  &apos;&quot;,&quot;created_at&quot;:&quot;&apos;, ?, 
-  &apos;&quot;,&quot;properties&quot;:{&quot;origin&quot;: &quot;jmeter&quot;}, &quot;status&quot;: &quot;&apos;, ?, 
-  &apos;&quot;, &quot;amount&quot;: &apos;, ?, &apos;, &quot;type&quot;: &quot;&apos;, ?, &apos;&quot;}&apos;), now());</stringProp>
-              <stringProp name="queryArguments">${UUID}, ${MESSAGE}, ${NOW}, ${STATUS}, ${AMOUNT}, ${TYPE}</stringProp>
-              <stringProp name="queryArgumentsTypes">VARCHAR, LONGVARCHAR, VARCHAR, VARCHAR, VARCHAR, VARCHAR</stringProp>
+              <stringProp name="query">insert into outbox (id, message, created_at) values (UUID(), &apos;{&quot;name&quot;:&quot;Weekly User Test&quot;, &quot;email&quot;: &quot;weekly_user@test.com&quot;,&quot;uuid&quot;:&quot;teste&quot;}&apos;, now());</stringProp>
+              <stringProp name="queryArguments"></stringProp>
+              <stringProp name="queryArgumentsTypes"></stringProp>
               <stringProp name="queryTimeout"></stringProp>
               <stringProp name="queryType">Callable Statement</stringProp>
               <stringProp name="resultSetHandler">Store as String</stringProp>
@@ -111,24 +105,24 @@ values
                 <stringProp name="cacheKey">true</stringProp>
                 <stringProp name="filename"></stringProp>
                 <stringProp name="parameters"></stringProp>
-                <stringProp name="script">String uuid = UUID.randomUUID().toString();
-String message = &quot;{\&quot;name\&quot;:\&quot;example\&quot;, \&quot;email\&quot;: \&quot;adrianolaselva@gmail.com\&quot;,\&quot;uuid\&quot;:\&quot;ee8699ef-bbbc-4e20-91ff-4579690dae55\&quot;,\&quot;created_at\&quot;:\&quot;2022-08-09T20:30:48.908+00:00\&quot;,\&quot;properties\&quot;:{}}&quot;;
-String now = &quot;${__time(yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;)}&quot;;
-
-String[] typeList = new String[] { &quot;RANDOM_1&quot;, &quot;RANDOM_2&quot;, &quot;RANDOM_3&quot; };
-String type = typeList[new Random().nextInt(typeList.length)];
-
-String[] statusList = new String[] { &quot;ACTIVE&quot;, &quot;INACTIVE&quot;, &quot;CANCELED&quot; };
-String status = statusList[new Random().nextInt(statusList.length)];
-
-float amount = new Random().nextFloat(1000);
-
-vars.put(&quot;UUID&quot;, uuid);
-vars.put(&quot;MESSAGE&quot;, UUID.randomUUID().toString());
-vars.put(&quot;NOW&quot;, now);
-vars.put(&quot;STATUS&quot;, now);
-vars.put(&quot;AMOUNT&quot;, amount.toString());
-vars.put(&quot;TYPE&quot;, type);</stringProp>
+                <stringProp name="script">//String uuid = UUID.randomUUID().toString();
+//String message = &quot;{\&quot;name\&quot;:\&quot;example\&quot;, \&quot;email\&quot;: \&quot;adrianolaselva@gmail.com\&quot;,\&quot;uuid\&quot;:\&quot;ee8699ef-bbbc-4e20-91ff-4579690dae55\&quot;,\&quot;created_at\&quot;:\&quot;2022-08-09T20:30:48.908+00:00\&quot;,\&quot;properties\&quot;:{}}&quot;;
+//String now = &quot;${__time(yyyy-MM-dd&apos;T&apos;HH:mm:ss.SSS&apos;Z&apos;)}&quot;;
+//
+//String[] typeList = new String[] { &quot;RANDOM_1&quot;, &quot;RANDOM_2&quot;, &quot;RANDOM_3&quot; };
+//String type = typeList[new Random().nextInt(typeList.length)];
+//
+//String[] statusList = new String[] { &quot;ACTIVE&quot;, &quot;INACTIVE&quot;, &quot;CANCELED&quot; };
+//String status = statusList[new Random().nextInt(statusList.length)];
+//
+//float amount = new Random().nextFloat(1000);
+//
+//vars.put(&quot;UUID&quot;, uuid);
+//vars.put(&quot;MESSAGE&quot;, UUID.randomUUID().toString());
+//vars.put(&quot;NOW&quot;, now);
+//vars.put(&quot;STATUS&quot;, now);
+//vars.put(&quot;AMOUNT&quot;, amount.toString());
+//vars.put(&quot;TYPE&quot;, type);</stringProp>
                 <stringProp name="scriptLanguage">java</stringProp>
               </JSR223PreProcessor>
               <hashTree/>

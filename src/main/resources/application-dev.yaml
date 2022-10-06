@@ -2,6 +2,7 @@ collector-outbox:
     indexPrefix: transactions
     connectors:
         collector-outbox-mysql:
+            connectorType: debezium-mysql
             properties:
                 databaseHostname: 127.0.0.1
                 databasePort: 3306
