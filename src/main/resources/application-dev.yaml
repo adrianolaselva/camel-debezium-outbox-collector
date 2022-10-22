@@ -26,7 +26,7 @@ collector-outbox:
                 databaseServerId: 1
                 databaseServerName: collector_outbox
                 databaseIncludeList: outbox
-                databaseHistory: com.collector.outbox.debezium.connect.MySqlDatabaseHistory
+                databaseHistory: com.collector.outbox.camel.debezium.history.MySqlDatabaseHistory
                 databaseHistorySkipUnparseableDdl: true
                 databaseHistoryStoreOnlyCapturedTablesDdl: true
                 tableIncludeList: outbox.outbox
@@ -34,7 +34,7 @@ collector-outbox:
                 includeSchemaChanges: false
                 snapshotMode: when_needed
                 snapshotLockingMode: none
-                offsetStorage: com.collector.outbox.debezium.connect.MySqlOffsetStore
+                offsetStorage: com.collector.outbox.camel.debezium.storage.MySqlOffsetStore
                 bridgeErrorHandler: true
             config[additionalProperties.database.history.driver.class]: ${spring.mysql.driver}
             config[additionalProperties.database.history.url]: jdbc:mysql://${spring.mysql.hostname}:${spring.mysql.port}/${spring.mysql.database}

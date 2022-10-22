@@ -26,8 +26,13 @@ public class ElasticsearchFailedProcessor implements Processor {
         final var attributes = new HashMap<String, Object>();
         final var exception = exchange.getProperty(EXCEPTION_CAUGHT, Exception.class);
 
-        exchange.getIn().getHeaders().forEach((key, value) -> headers.put(key, value == null ? "" : value.toString()));
-        bodyStruct.schema().fields().forEach(field -> attributes.put(field.name(), bodyStruct.get(field.name())));
+        exchange.getIn()
+            .getHeaders()
+            .forEach((key, value) -> headers.put(key, value == null ? "" : value.toString()));
+
+        bodyStruct.schema()
+            .fields()
+            .forEach(field -> attributes.put(field.name(), bodyStruct.get(field.name())));
 
         final var sourceJson = mapper.writeValueAsString(Map.of(
             "headers", headers,

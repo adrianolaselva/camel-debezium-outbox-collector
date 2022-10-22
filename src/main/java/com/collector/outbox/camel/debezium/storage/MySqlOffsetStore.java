@@ -1,4 +1,4 @@
-package com.collector.outbox.debezium.connect;
+package com.collector.outbox.camel.debezium.storage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.connect.runtime.WorkerConfig;
@@ -15,7 +15,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.UUID;
 
 import static java.lang.String.format;

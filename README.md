@@ -1,4 +1,4 @@
-# Camel Outbox Collector
+# POC Camel Outbox Collector
 
 Exemplo de solução utilizando Debezium com apache camel para manter sincrizadas informações de base de dados de produção com elasticsearch para buscar.
 

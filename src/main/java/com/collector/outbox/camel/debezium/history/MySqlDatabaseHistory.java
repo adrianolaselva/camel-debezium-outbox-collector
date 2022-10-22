@@ -1,4 +1,4 @@
-package com.collector.outbox.debezium.connect;
+package com.collector.outbox.camel.debezium.history;
 
 import io.debezium.config.Configuration;
 import io.debezium.document.DocumentReader;

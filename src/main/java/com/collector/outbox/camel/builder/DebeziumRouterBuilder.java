@@ -1,16 +1,16 @@
 package com.collector.outbox.camel.builder;
 
 import com.collector.outbox.properties.entities.DebeziumRoutes;
+import lombok.AllArgsConstructor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.RouteDefinition;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static java.lang.String.format;
 
+@AllArgsConstructor
 public abstract class DebeziumRouterBuilder extends RouteBuilder {
 
-    @Autowired
-    private DebeziumRoutes debeziumRouters;
+    private final DebeziumRoutes debeziumRouters;
 
     @Override
     public abstract void configure() throws Exception;

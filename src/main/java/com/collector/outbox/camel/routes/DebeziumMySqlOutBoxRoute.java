@@ -5,7 +5,9 @@ import com.collector.outbox.camel.aggregate.BulkDeleteRequestOutBoxAggregate;
 import com.collector.outbox.camel.aggregate.BulkIndexRequestOutBoxAggregate;
 import com.collector.outbox.camel.builder.DebeziumRouterBuilder;
 import com.collector.outbox.camel.process.ElasticsearchFailedProcessor;
+import com.collector.outbox.properties.entities.DebeziumRoutes;
 import io.debezium.data.Envelope;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.component.elasticsearch.ElasticsearchComponent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +22,21 @@ import static org.apache.camel.LoggingLevel.WARN;
 @Component
 public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
 
-    @Autowired
-    private BulkIndexRequestOutBoxAggregate bulkIndexRequestOutBoxAggregate;
+    private final BulkIndexRequestOutBoxAggregate bulkIndexRequestOutBoxAggregate;
+    private final BulkDeleteRequestOutBoxAggregate bulkDeleteRequestOutBoxAggregate;
+    private final ElasticsearchFailedProcessor elasticsearchFailedProcessor;
+    public final ElasticsearchComponent elasticsearchComponent;
 
-    @Autowired
-    private BulkDeleteRequestOutBoxAggregate bulkDeleteRequestOutBoxAggregate;
-
-    @Autowired
-    private ElasticsearchFailedProcessor elasticsearchFailedProcessor;
-
-    @Autowired
-    public ElasticsearchComponent elasticsearchComponent;
+    public DebeziumMySqlOutBoxRoute(final DebeziumRoutes debeziumRouters,
+        final BulkIndexRequestOutBoxAggregate bulkIndexRequestOutBoxAggregate,
+        final BulkDeleteRequestOutBoxAggregate bulkDeleteRequestOutBoxAggregate,
+        final ElasticsearchFailedProcessor elasticsearchFailedProcessor, final ElasticsearchComponent elasticsearchComponent) {
+        super(debeziumRouters);
+        this.bulkIndexRequestOutBoxAggregate = bulkIndexRequestOutBoxAggregate;
+        this.bulkDeleteRequestOutBoxAggregate = bulkDeleteRequestOutBoxAggregate;
+        this.elasticsearchFailedProcessor = elasticsearchFailedProcessor;
+        this.elasticsearchComponent = elasticsearchComponent;
+    }
 
     @Override
     public void configure() throws Exception {
