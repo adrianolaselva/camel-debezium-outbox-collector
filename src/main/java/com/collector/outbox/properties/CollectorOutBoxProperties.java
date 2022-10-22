@@ -1,6 +1,6 @@
-package com.colector.outbox.properties;
+package com.collector.outbox.properties;
 
-import com.colector.outbox.entities.Settings;
+import com.collector.outbox.properties.entities.Settings;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

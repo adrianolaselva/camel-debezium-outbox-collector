@@ -27,9 +27,3 @@ docker exec -it kafka.outbox.collector.dev kafka-topics.sh \
          --create --topic debezium-outbox-db-history \
           --replication-factor 1 --partitions 1 \
           --if-not-exists --config "retention.ms=157680000000"
-
-docker exec -it kafka.outbox.collector.dev kafka-topics.sh \
-         --zookeeper zookeeper.outbox.collector.dev:2181 \
-         --create --topic debezium-outbox-db-history \
-          --replication-factor 1 --partitions 1 \
-          --if-not-exists --config "retention.ms=157680000000"

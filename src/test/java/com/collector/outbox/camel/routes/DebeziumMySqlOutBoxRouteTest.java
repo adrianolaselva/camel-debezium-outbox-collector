@@ -1,4 +1,4 @@
-package com.colector.outbox.camel.routes;
+package com.collector.outbox.camel.routes;
 
 import org.junit.jupiter.api.Test;
 

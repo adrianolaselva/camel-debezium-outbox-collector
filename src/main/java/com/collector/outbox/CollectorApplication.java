@@ -1,4 +1,4 @@
-package com.colector.outbox;
+package com.collector.outbox;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

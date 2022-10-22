@@ -1,6 +1,6 @@
-package com.colector.outbox.camel.aggregate;
+package com.collector.outbox.camel.aggregate;
 
-import com.colector.outbox.properties.CollectorOutBoxProperties;
+import com.collector.outbox.properties.CollectorOutBoxProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.SneakyThrows;

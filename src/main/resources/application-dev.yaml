@@ -1,19 +1,32 @@
+spring:
+    mysql:
+        driver: com.mysql.cj.jdbc.Driver
+        hostname: 127.0.0.1
+        database: outbox
+        port: 3306
+        user: root
+        password: root
+    elasticsearch-rest:
+        host: 127.0.0.1
+        scheme: http
+        port: 9200
+        user: admin
+        password: admin
+
 collector-outbox:
     indexPrefix: transactions
     connectors:
         collector-outbox-mysql:
             connectorType: debezium-mysql
             properties:
-                databaseHostname: 127.0.0.1
-                databasePort: 3306
-                databaseUser: root
-                databasePassword: root
+                databaseHostname: ${spring.mysql.hostname}
+                databasePort: ${spring.mysql.port}
+                databaseUser: ${spring.mysql.user}
+                databasePassword: ${spring.mysql.password}
                 databaseServerId: 1
                 databaseServerName: collector_outbox
                 databaseIncludeList: outbox
-                databaseHistory: io.debezium.relational.history.KafkaDatabaseHistory
-                databaseHistoryKafkaBootstrapServers: 127.0.0.1:9092
-                databaseHistoryKafkaTopic: debezium-outbox-db-history
+                databaseHistory: com.collector.outbox.debezium.connect.MySqlDatabaseHistory
                 databaseHistorySkipUnparseableDdl: true
                 databaseHistoryStoreOnlyCapturedTablesDdl: true
                 tableIncludeList: outbox.outbox
@@ -21,28 +34,11 @@ collector-outbox:
                 includeSchemaChanges: false
                 snapshotMode: when_needed
                 snapshotLockingMode: none
-                offsetStorage: org.apache.kafka.connect.storage.KafkaOffsetBackingStore
-                offsetStorageTopic: my_connect_offsets
+                offsetStorage: com.collector.outbox.debezium.connect.MySqlOffsetStore
                 bridgeErrorHandler: true
-            config[additionalProperties.client.id]: debezium
-            config[additionalProperties.group.id]: debezium
-            config[additionalProperties.bootstrap.servers]: 127.0.0.1:9092
-            config[additionalProperties.database.history.kafka.topic]: my_connect_configs
-            config[additionalProperties.config.storage.topic]: my_connect_configs
-            config[additionalProperties.offset.storage.topic]: my_connect_offsets
-            config[additionalProperties.status.storage.topic]: my_connect_statuses
-            config[additionalProperties.config.storage.replication.factor]: -1
-            config[additionalProperties.offset.storage.replication.factor]: -1
-            config[additionalProperties.status.storage.replication.factor]: -1
-            config[additionalProperties.connect.key.converter.schemas.enable]: false
-            config[additionalProperties.connect.value.converter.schemas.enable]: false
-            config[additionalProperties.connect.scheduled.rebalance.max.delay.ms]: false
-
-camel:
-    component:
-        elasticsearch-rest:
-            host: 127.0.0.1
-            scheme: http
-            port: 9200
-            user: admin
-            password: admin
+            config[additionalProperties.database.history.driver.class]: ${spring.mysql.driver}
+            config[additionalProperties.database.history.url]: jdbc:mysql://${spring.mysql.hostname}:${spring.mysql.port}/${spring.mysql.database}
+            config[additionalProperties.database.history.user]: ${spring.mysql.user}
+            config[additionalProperties.database.history.password]: ${spring.mysql.password}
+            config[additionalProperties.database.history.table]: database_history
+            config[additionalProperties.database.offset.table]: offset_store
