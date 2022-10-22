@@ -45,6 +45,15 @@ Comando para parar todos os seviços.
 make infra-down
 ```
 
+## Rodar conectores de forma isolada.
+
+Para possibilitar rodar cada conector por instâncias no k8s basta passar o parâmetro `--spring.application.connector` na execução conforme exempo abaixo.
+
+```shell
+docker run -it --net bubble adrianolaselva/collector:latest --spring.application.connector=collector-outbox-mysql
+```
+> Obs: No projeto há 2 conectores, sendo um utilziando OffsetStorage mysql e outro Kafka.
+
 ## Acessar MySql
 
 Comando para acessar instência MySql para gerar inserir dados e por sua vez gerar eventos para serem persistidos no elasticsearch.
@@ -126,11 +135,6 @@ curl -XGET 'http://localhost:9200/events-*/_search' | json_pp -json_opt pretty,c
 ```
 > Resposta da requisição ao Elasticsearch.
 
-
-
-```shell
-docker run -it --net bubble adrianolaselva/collector:latest --spring.application.connector=collector-outbox-mysql
-```
 
 ## Referências
 
