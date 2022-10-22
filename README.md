@@ -127,6 +127,11 @@ curl -XGET 'http://localhost:9200/events-*/_search' | json_pp -json_opt pretty,c
 > Resposta da requisição ao Elasticsearch.
 
 
+
+```shell
+docker run -it --net bubble adrianolaselva/collector:latest --spring.application.connector=collector-outbox-mysql
+```
+
 ## Referências
 
 - [Apache Camel](https://camel.apache.org/)

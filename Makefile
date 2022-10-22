@@ -20,8 +20,19 @@ test:
 	@make infra-up
 	mvn clean test
 
+build:
+	mvn -DskipTests package --batch-mode
+
 run:
 	mvn clean spring-boot:run
+
+run-collector-outbox-mysql:
+	mvn -DskipTests package --batch-mode
+	java -jar ./target/collector-0.0.1-SNAPSHOT.jar --spring.application.connector=collector-outbox-mysql
+
+run-collector-outbox-mysql-with-kafka:
+	mvn -DskipTests package --batch-mode
+	java -jar ./target/collector-0.0.1-SNAPSHOT.jar --spring.application.connector=collector-outbox-mysql-with-kafka
 
 setup:
 	@make setup-mysql-outbox-table

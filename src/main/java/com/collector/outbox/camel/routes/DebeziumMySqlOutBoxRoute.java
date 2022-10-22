@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.component.elasticsearch.ElasticsearchComponent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;
@@ -26,6 +27,9 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
     private final BulkDeleteRequestOutBoxAggregate bulkDeleteRequestOutBoxAggregate;
     private final ElasticsearchFailedProcessor elasticsearchFailedProcessor;
     public final ElasticsearchComponent elasticsearchComponent;
+
+    @Value("${spring.application.connector}")
+    private String connectorName;
 
     public DebeziumMySqlOutBoxRoute(final DebeziumRoutes debeziumRouters,
         final BulkIndexRequestOutBoxAggregate bulkIndexRequestOutBoxAggregate,
@@ -48,7 +52,7 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
 
         getContext().addComponent("elasticsearch-rest", elasticsearchComponent);
 
-        fromDebezium("collector-outbox-mysql")
+        fromDebezium(connectorName)
             .choice()
             .when(simple(format("${header.CamelDebeziumOperation} == '%s'", Envelope.Operation.DELETE.code())))
                 .to("direct:elasticsearch-bulk-delete")
