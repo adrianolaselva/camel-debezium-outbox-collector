@@ -4,11 +4,11 @@ Exemplo de solução utilizando Debezium com apache camel para manter sincrizada
 
 Esta POC tem como objetivo ser um material de apoio para apresentar uma abordagem simplória em que dependêndo do cenário pode ser de grande valia, como por exemplo aliviar consultas em banco de dados produtivo e possibilitar consultas mais complexas utilizando outras soluções. No exemplo construído esta sendo utilizada uma instância de ElasticSearch.
 
-A implementação conta também com um aggregator para construir os lotes par apersistir os dados de forma mais performática e também os quebrando em índices no Elasticsearch de acordo com a data de criação (ex: `events-2022-01`).
+A implementação conta também com um aggregator para construir os lotes para persistir os dados de forma mais performática e também os quebrando em índices no Elasticsearch de acordo com a data de criação (ex: `events-2022-01`).
 
 
 <p align="center" width="100%">
-    <img width="100%" src="docs/images/debezium-connector-camel.drawio.png"> 
+    <img width="100%" src="docs/images/debezium-connector-camel.drawio.png">
 </p>
 
 ## Casos de uso.
@@ -18,6 +18,7 @@ A implementação conta também com um aggregator para construir os lotes par ap
 - Contrução de datalakes em `near-real-time` enviando informações coletadas em lotes de arquivos para soluções de storage tal como S3, FTP, ou até mesmo um servidor local.
 - Possibilidade de enviar eventos para serviços de mensageria tal como Kafka, SQS, SNS, Azure service bus entre outros para assim alimentar 1..n consumidores com a possibilidade de utilziar multicast.
 - Flexibilidade de customizar os eventos coletados atravéz do componente Debezium do Apache Camel e utilizar com frameworks tal como Spring boot e Quarkus.
+- Implementação de offset storage e database history utilizando mysql como uma das possíveis alternativas.
 
 ## Bibliotecas.
 
