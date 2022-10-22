@@ -1,10 +1,10 @@
-package com.colector.outbox.camel.routes;
+package com.collector.outbox.camel.routes;
 
 
-import com.colector.outbox.camel.aggregate.BulkDeleteRequestOutBoxAggregate;
-import com.colector.outbox.camel.aggregate.BulkIndexRequestOutBoxAggregate;
-import com.colector.outbox.camel.builder.DebeziumRouterBuilder;
-import com.colector.outbox.camel.process.ElasticsearchFailedProcessor;
+import com.collector.outbox.camel.aggregate.BulkDeleteRequestOutBoxAggregate;
+import com.collector.outbox.camel.aggregate.BulkIndexRequestOutBoxAggregate;
+import com.collector.outbox.camel.builder.DebeziumRouterBuilder;
+import com.collector.outbox.camel.process.ElasticsearchFailedProcessor;
 import io.debezium.data.Envelope;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.component.elasticsearch.ElasticsearchComponent;
@@ -50,6 +50,8 @@ public class DebeziumMySqlOutBoxRoute extends DebeziumRouterBuilder {
                 .to("direct:elasticsearch-bulk-insert")
             .when(simple(format("${header.CamelDebeziumOperation} == '%s'", Envelope.Operation.UPDATE.code())))
                 .to("direct:elasticsearch-bulk-update")
+            .when(simple(format("${header.CamelDebeziumOperation} == '%s'", Envelope.Operation.READ.code())))
+                .endChoice()
             .otherwise()
                 .log(WARN, "ignore operation: ${header.CamelDebeziumOperation}");
 

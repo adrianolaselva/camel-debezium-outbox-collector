@@ -1,4 +1,4 @@
-package com.colector.outbox.camel.process;
+package com.collector.outbox.camel.process;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Exchange;

@@ -1,4 +1,4 @@
-package com.colector.outbox.entities;
+package com.collector.outbox.properties.entities;
 
 import java.util.HashMap;
 

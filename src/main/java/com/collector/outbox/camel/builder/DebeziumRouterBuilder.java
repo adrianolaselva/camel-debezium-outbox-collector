@@ -1,6 +1,6 @@
-package com.colector.outbox.camel.builder;
+package com.collector.outbox.camel.builder;
 
-import com.colector.outbox.entities.DebeziumRoutes;
+import com.collector.outbox.properties.entities.DebeziumRoutes;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.RouteDefinition;
 import org.springframework.beans.factory.annotation.Autowired;

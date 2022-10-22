@@ -31,6 +31,8 @@ setup-kafka-topics-table:
 	(cd infra; sh setup-kafka-topics-table.sh)
 
 setup-mysql-outbox-table:
+	(docker-compose -f docker-compose.yaml exec -T mysql.outbox.collector.dev sh -c "mysql -uroot -proot -Dmysql" < ./migrations/database-history.sql)
+	(docker-compose -f docker-compose.yaml exec -T mysql.outbox.collector.dev sh -c "mysql -uroot -proot -Dmysql" < ./migrations/offset-store.sql)
 	(docker-compose -f docker-compose.yaml exec -T mysql.outbox.collector.dev sh -c "mysql -uroot -proot -Dmysql" < ./migrations/outbox.sql)
 
 send-random-event-mysql:

@@ -1,4 +1,4 @@
-package com.colector.outbox.config;
+package com.collector.outbox.config;
 
 import org.apache.camel.component.elasticsearch.ElasticsearchComponent;
 import org.apache.http.Header;
@@ -19,19 +19,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ElasticSearchConfig {
 
-    @Value("${camel.component.elasticsearch-rest.host}")
+    @Value("${spring.elasticsearch-rest.host}")
     private String elasticsearchHost;
 
-    @Value("${camel.component.elasticsearch-rest.scheme}")
+    @Value("${spring.elasticsearch-rest.scheme}")
     private String elasticsearchScheme;
 
-    @Value("${camel.component.elasticsearch-rest.port}")
+    @Value("${spring.elasticsearch-rest.port}")
     private Integer elasticsearchPort;
 
-    @Value("${camel.component.elasticsearch-rest.user}")
+    @Value("${spring.elasticsearch-rest.user}")
     private String elasticsearchUser;
 
-    @Value("${camel.component.elasticsearch-rest.password}")
+    @Value("${spring.elasticsearch-rest.password}")
     private String elasticsearchPassword;
 
     @Bean

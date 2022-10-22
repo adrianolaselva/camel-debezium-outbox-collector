@@ -1,6 +1,6 @@
-package com.colector.outbox.camel.aggregate;
+package com.collector.outbox.camel.aggregate;
 
-import com.colector.outbox.properties.CollectorOutBoxProperties;
+import com.collector.outbox.properties.CollectorOutBoxProperties;
 import lombok.SneakyThrows;
 import org.apache.camel.AggregationStrategy;
 import org.apache.camel.Exchange;
